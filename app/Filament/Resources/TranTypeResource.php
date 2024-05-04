@@ -23,7 +23,8 @@ class TranTypeResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name_type')->label('Name Type'),
+                Forms\Components\Textarea::make('descrip_type')->label('Description Type'),
             ]);
     }
 
@@ -31,7 +32,8 @@ class TranTypeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name_type')->label('Name Type'),
+                Tables\Columns\TextColumn::make('descrip_type')->label('Description Type'),
             ])
             ->filters([
                 //
