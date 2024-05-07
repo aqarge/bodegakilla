@@ -23,7 +23,15 @@ class DebtResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Select::make('clients_id')
+                    ->relationship('clients', 'name_cli')
+                    ->label('Cliente'),
+                Forms\Components\Select::make('product_id')
+                    ->relationship('products', 'name_pro')
+                    ->label('Producto'),
+                Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
+                Forms\Components\TextInput::make('amount_debt')->label('Monto de la deuda'),
+                Forms\Components\Checkbox::make('status_debt')->label('Estado de la deuda'),
             ]);
     }
 
@@ -31,7 +39,13 @@ class DebtResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('clients.name_cli')->label('Cliente'),
+                Tables\Columns\TextColumn::make('products.name_pro')->label('Producto'),
+                Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
+                Tables\Columns\TextColumn::make('amount_debt')->label('Monto'),
+                Tables\Columns\TextColumn::make('status_debt')->label('Estado'),
+                Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
+                Tables\Columns\TextColumn::make('updated_at')->label('Fecha de actualización'),
             ])
             ->filters([
                 //

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('boxes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tran_types_id')->constrained('tran_types')->cascadeOnDelete();
-            $table->foreignId('boxes_id')->constrained('boxes')->cascadeOnDelete();
-            $table->decimal('amount_tran', 10,2);
-            $table->text('descrip_tran')->nullable();
+            $table->date('opening');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('boxes');
     }
 };

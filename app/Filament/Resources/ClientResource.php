@@ -23,7 +23,10 @@ class ClientResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name_cli')->label('Nombre del cliente'),
+                Forms\Components\Textarea::make('surname_cli')->label('Apellidos del cliente'),
+                Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
+                Forms\Components\TextInput::make('phone_cli')->label('Celular'),
             ]);
     }
 
@@ -31,7 +34,10 @@ class ClientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name_cli')->label('Nombre del cliente'),
+                Tables\Columns\TextColumn::make('surname_cli')->label('Apellidos del cliente'),
+                Tables\Columns\TextColumn::make('nick_cli')->label('Apodo del cliente'),
+                Tables\Columns\TextColumn::make('phone_cli')->label('Celular'),
             ])
             ->filters([
                 //

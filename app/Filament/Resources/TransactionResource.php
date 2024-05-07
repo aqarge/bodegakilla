@@ -20,6 +20,7 @@ class TransactionResource extends Resource
     protected static ?string $model = Transaction::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Transacciones';
 
     public static function form(Form $form): Form
     {
@@ -30,6 +31,9 @@ class TransactionResource extends Resource
                 Forms\Components\Select::make('tran_types_id')
                     ->relationship('tran_types', 'name_type')
                     ->label('Transaction Type'),
+                    Forms\Components\Select::make('boxes_id')
+                    ->relationship('boxes', 'opening')
+                    ->label('fecha de caja'),
             ]);
     }
 
@@ -48,6 +52,7 @@ class TransactionResource extends Resource
     ->columns([
         Tables\Columns\TextColumn::make('amount_tran')->label('Monto'),
         Tables\Columns\TextColumn::make('tran_types.name_type')->label('Tipo'),
+        Tables\Columns\TextColumn::make('boxes.opening')->label('Caja'),
         Tables\Columns\TextColumn::make('descrip_tran')->label('Descripcion'),
         Tables\Columns\TextColumn::make('created_at')->label('Fecha de Creación'),
     ])

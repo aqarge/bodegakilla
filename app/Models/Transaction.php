@@ -15,5 +15,10 @@ class Transaction extends Model
         //return $this->hasMany(Tran_type::class);
         return $this->belongsTo(Tran_type::class, 'tran_types_id');
     }
+    public function boxes(): BelongsTo
+    {
+        //return $this->hasMany(Tran_type::class);
+        return $this->belongsTo(Box::class, 'boxes_id');
+    }
     
 }

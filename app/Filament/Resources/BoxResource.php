@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProTypeResource\Pages;
-use App\Filament\Resources\ProTypeResource\RelationManagers;
-use App\Models\Pro_type;
+use App\Filament\Resources\BoxResource\Pages;
+use App\Filament\Resources\BoxResource\RelationManagers;
+use App\Models\Box;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProTypeResource extends Resource
+class BoxResource extends Resource
 {
-    protected static ?string $model = Pro_type::class;
+    protected static ?string $model = Box::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,8 +23,7 @@ class ProTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_protype')->label('Nombre de tipo'),
-                Forms\Components\Textarea::make('descrip_protype')->label('Descripción'),
+                Forms\Components\DatePicker::make('opening')->label('Fecha de apertura'),
             ]);
     }
 
@@ -32,8 +31,7 @@ class ProTypeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_protype')->label('Nombre de tipo'),
-                Tables\Columns\TextColumn::make('descrip_protype')->label('Descripcion'),
+                Tables\Columns\TextColumn::make('opening')->label('Fecha de apertura'),
             ])
             ->filters([
                 //
@@ -58,9 +56,9 @@ class ProTypeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProTypes::route('/'),
-            'create' => Pages\CreateProType::route('/create'),
-            'edit' => Pages\EditProType::route('/{record}/edit'),
+            'index' => Pages\ListBoxes::route('/'),
+            'create' => Pages\CreateBox::route('/create'),
+            'edit' => Pages\EditBox::route('/{record}/edit'),
         ];
     }
 }
