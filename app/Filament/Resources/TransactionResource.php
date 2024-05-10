@@ -21,6 +21,7 @@ class TransactionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Transacciones';
+    protected static ?string $navigationGroup = 'Libro de caja';
 
     public static function form(Form $form): Form
     {

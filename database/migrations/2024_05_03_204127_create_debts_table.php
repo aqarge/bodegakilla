@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('debts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('clients_id')->constrained('clients')->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->string('descrip_debt');
             $table->decimal('amount_debt', 10,2);
             $table->boolean('status_debt')->default(false);

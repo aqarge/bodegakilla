@@ -18,6 +18,8 @@ class DebtResource extends Resource
     protected static ?string $model = Debt::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Fiados';
+    protected static ?string $navigationGroup = 'Libro de fiados';
 
     public static function form(Form $form): Form
     {
@@ -26,9 +28,10 @@ class DebtResource extends Resource
                 Forms\Components\Select::make('clients_id')
                     ->relationship('clients', 'name_cli')
                     ->label('Cliente'),
-                Forms\Components\Select::make('product_id')
+                Forms\Components\Select::make('product_ids')
                     ->relationship('products', 'name_pro')
-                    ->label('Producto'),
+                    ->multiple()
+                    ->label('Productos'),
                 Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
                 Forms\Components\TextInput::make('amount_debt')->label('Monto de la deuda'),
                 Forms\Components\Checkbox::make('status_debt')->label('Estado de la deuda'),

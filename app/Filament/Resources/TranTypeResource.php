@@ -18,6 +18,8 @@ class TranTypeResource extends Resource
     protected static ?string $model = Tran_type::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Tipos de Transacciones';
+    protected static ?string $navigationGroup = 'Libro de caja';
 
     public static function form(Form $form): Form
     {

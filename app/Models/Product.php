@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
     use HasFactory;
-    
-    public function pro_types(): belongsTo
+
+    public function debts(): BelongsToMany
     {
-        return $this->belongsTo(Pro_type::class, 'pro_types_id');
+        return $this->belongsToMany(Debt::class, 'debts', 'debts_id');
     }
-    public function debts(): BelongsTo
+
+    public function pro_types(): HasMany
     {
-        return $this->belongsTo(Debt::class, 'debts_id');
+        return $this->HasMany(Pro_type::class, 'pro_types_id');
     }
-    
 }
+
