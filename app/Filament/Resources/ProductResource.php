@@ -25,13 +25,13 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                
-                Forms\Components\TextInput::make('name_pro')->label('Nombre del producto'),
+
+                Forms\Components\TextInput::make('name_pro')->required()->label('Nombre del producto'),
                 Forms\Components\Textarea::make('descrip_pro')->label('Descripcion del producto'),
-                Forms\Components\TextInput::make('price_pro')->label('Precio del producto'),
-                Forms\Components\TextInput::make('stock_pro')->label('Cantidad de productos'),
+                Forms\Components\TextInput::make('price_pro')->required()->label('Precio del producto'),
+                Forms\Components\TextInput::make('stock_pro')->required()->label('Cantidad de productos'),
                 Forms\Components\DatePicker::make('expiration')->label('Fecha de vencimiento'),
-                Forms\Components\Select::make('pro_types_id')
+                Forms\Components\Select::make('pro_type_id')->required()
                     ->relationship('pro_types', 'name_protype')
                     ->label('Tipo de producto'),
             ]);
@@ -46,7 +46,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('price_pro')->label('Precio del producto'),
                 Tables\Columns\TextColumn::make('stock_pro')->label('Cantidad de productos'),
                 Tables\Columns\TextColumn::make('expiration')->label('Fecha de vencimiento'),
-                Tables\Columns\TextColumn::make('pro_types.name_protype')->label('Tipo de producto'),
+                Tables\Columns\TextColumn::make('pro_type.name_protype')->label('Tipo de producto'),
 
             ])
             ->filters([

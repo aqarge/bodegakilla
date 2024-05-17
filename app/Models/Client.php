@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Client extends Model
 {
     use HasFactory;
 
-    public function debt(): HasOne
+    public function debt(): HasMany
     {
-        return $this->hasOne(Debt::class, 'debts_id');
+        return $this->hasMany(Debt::class);
     }
 }

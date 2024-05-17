@@ -25,7 +25,7 @@ class BoxResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('opening')->label('Fecha de apertura'),
+                Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
             ]);
     }
 

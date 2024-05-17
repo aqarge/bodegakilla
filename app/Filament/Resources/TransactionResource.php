@@ -27,12 +27,12 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('amount_tran')->label('Amount Transaction'),
+                Forms\Components\TextInput::make('amount_tran')->required()->label('Amount Transaction'),
                 Forms\Components\Textarea::make('descrip_tran')->label('Description Transaction'),
-                Forms\Components\Select::make('tran_types_id')
+                Forms\Components\Select::make('tran_types_id')->required()
                     ->relationship('tran_types', 'name_type')
                     ->label('Transaction Type'),
-                    Forms\Components\Select::make('boxes_id')
+                    Forms\Components\Select::make('boxes_id')->required()
                     ->relationship('boxes', 'opening')
                     ->label('fecha de caja'),
             ]);
@@ -58,8 +58,8 @@ class TransactionResource extends Resource
         Tables\Columns\TextColumn::make('created_at')->label('Fecha de Creación'),
     ])
     ->filters([
-        
-        
+
+
     ])
     ->actions([
         Tables\Actions\EditAction::make(),
@@ -69,10 +69,10 @@ class TransactionResource extends Resource
             Tables\Actions\DeleteBulkAction::make(),
         ]),
     ]);
-  
-    
-        
-        
+
+
+
+
 }
 
 

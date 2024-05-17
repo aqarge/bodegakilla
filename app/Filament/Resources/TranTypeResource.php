@@ -25,7 +25,7 @@ class TranTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_type')->label('Name Type'),
+                Forms\Components\TextInput::make('name_type')->required()->label('Name Type'),
                 Forms\Components\Textarea::make('descrip_type')->label('Description Type'),
             ]);
     }

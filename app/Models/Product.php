@@ -13,12 +13,12 @@ class Product extends Model
 
     public function debts(): BelongsToMany
     {
-        return $this->belongsToMany(Debt::class, 'debts', 'debts_id');
+    return $this->belongsToMany(Debt::class, 'debt_products');
     }
 
     public function pro_types(): HasMany
     {
-        return $this->HasMany(Pro_type::class, 'pro_types_id');
+        return $this->HasMany(Pro_type::class);
     }
 }
 

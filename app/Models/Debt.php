@@ -10,16 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Debt extends Model
 {
     use HasFactory;
-    
+
     protected $guarded = [];
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'products', 'products_id');
+        return $this->belongsToMany(Product::class, 'debt_products');
     }
 
     public function client(): BelongsTo
     {
-        return $this->belongsTo(Client::class, 'clients_id');
+        return $this->belongsTo(Client::class);
     }
 }

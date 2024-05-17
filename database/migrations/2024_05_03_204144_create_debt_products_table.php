@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_debts', function (Blueprint $table) {
+        Schema::create('debt_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('debts_id')->constrained('debts')->cascadeOnDelete();
-            $table->foreignId('products_id')->constrained('products')->cascadeOnDelete();
+           $table->unsignedBigInteger('debt_id');
+            $table->unsignedBigInteger('product_id');
+
+            // $table->foreignId('debts_id')->references('id')->on('debts')->cascadeOnDelete();
+            // $table->foreignId('products_id')->references('id')->on('products')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_debts');
+        Schema::dropIfExists('debt_products');
     }
 };

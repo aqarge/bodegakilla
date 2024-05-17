@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider;
+use App\Models\Debt;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,3 +16,8 @@ use App\Providers\RouteServiceProvider;
 
 Route::redirect('/', RouteServiceProvider::HOME);
 
+Route::get('/ola', function () {
+    $data = Debt::first()->products;
+    dd($data);
+    return response($data);
+});

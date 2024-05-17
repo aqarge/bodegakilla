@@ -25,7 +25,7 @@ class ProTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_protype')->label('Nombre de tipo'),
+                Forms\Components\TextInput::make('name_protype')->required()->label('Nombre de tipo'),
                 Forms\Components\Textarea::make('descrip_protype')->label('Descripción'),
             ]);
     }

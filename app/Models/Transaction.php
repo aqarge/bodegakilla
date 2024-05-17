@@ -13,12 +13,12 @@ class Transaction extends Model
     public function tran_types(): BelongsTo
     {
         //return $this->hasMany(Tran_type::class);
-        return $this->belongsTo(Tran_type::class, 'tran_types_id');
+        return $this->belongsTo(Tran_type::class);
     }
     public function boxes(): BelongsTo
     {
         //return $this->hasMany(Tran_type::class);
-        return $this->belongsTo(Box::class, 'boxes_id');
+        return $this->belongsTo(Box::class);
     }
-    
+
 }
