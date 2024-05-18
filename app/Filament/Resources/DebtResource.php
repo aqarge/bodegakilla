@@ -26,22 +26,37 @@ class DebtResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('client_id')
-                ->required()
+                    ->required()
                     ->relationship('client', 'name_cli')
                     ->label('Cliente'),
+
                 Forms\Components\Select::make('product_id')
-                ->required()
+                    ->required()
                     ->relationship('products', 'name_pro')
                     ->multiple()
-                    ->label('Productos'),
-                 Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
-                 Forms\Components\TextInput::make('amount_debt')->required()->label('Monto de la deuda'),
-                 Forms\Components\Radio::make('status_debt')
-    ->options([
-        '1' => 'Pagado',
-        '0' => 'Falta pagar',
-    ])->label('Estado de la deuda')
-    ->required(),
+                    ->label('Productos')
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                        // Obtener los precios de los productos seleccionados y sumar
+                        $products = \App\Models\Product::whereIn('id', $state)->get();
+                        $totalAmount = $products->sum('price_pro');
+                        $set('amount_debt', $totalAmount);
+                    }),
+
+                Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
+
+                Forms\Components\TextInput::make('amount_debt')
+                    ->required()
+                    ->label('Monto de la deuda')
+                    ->reactive(),
+
+                Forms\Components\Radio::make('status_debt')
+                    ->options([
+                        '1' => 'Pagado',
+                        '0' => 'Falta pagar',
+                    ])
+                    ->label('Estado de la deuda')
+                    ->required(),
             ]);
     }
 
@@ -51,11 +66,11 @@ class DebtResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('client.name_cli')->label('Cliente'),
                 Tables\Columns\TextColumn::make('product.name_pro')->label('Producto'),
-                 Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
-                 Tables\Columns\TextColumn::make('amount_debt')->label('Monto'),
-                 Tables\Columns\TextColumn::make('status_debt')->label('Estado'),
-                 Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
-                 Tables\Columns\TextColumn::make('updated_at')->label('Fecha de actualización'),
+                Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
+                Tables\Columns\TextColumn::make('amount_debt')->label('Monto'),
+                Tables\Columns\TextColumn::make('status_debt')->label('Estado'),
+                Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
+                Tables\Columns\TextColumn::make('updated_at')->label('Fecha de actualización'),
             ])
             ->filters([
                 //
