@@ -29,12 +29,25 @@ class TransactionResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('amount_tran')->required()->label('Amount Transaction'),
                 Forms\Components\Textarea::make('descrip_tran')->label('Description Transaction'),
+
                 Forms\Components\Select::make('tran_types_id')->required()
                     ->relationship('tran_types', 'name_type')
-                    ->label('Transaction Type'),
-                    Forms\Components\Select::make('boxes_id')->required()
+                    ->label('Transaction Type')
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name_type')->required()->label('Name Type'),
+                        Forms\Components\Textarea::make('descrip_type')->label('Description Type'),
+                    ]),
+
+
+                Forms\Components\Select::make('boxes_id')->required()
                     ->relationship('boxes', 'opening')
-                    ->label('fecha de caja'),
+                    ->label('fecha de caja')
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
+                    ]),
+
             ]);
     }
 

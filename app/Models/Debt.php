@@ -11,11 +11,13 @@ class Debt extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    //protected $guarded = [];
+   
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'debt_products');
+        return $this->belongsToMany(Product::class, 'debt_products')->withPivot('quantity')
+        ->withTimestamps();
     }
 
     public function client(): BelongsTo

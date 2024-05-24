@@ -33,7 +33,11 @@ class ProductResource extends Resource
                 Forms\Components\DatePicker::make('expiration')->label('Fecha de vencimiento'),
                 Forms\Components\Select::make('pro_type_id')->required()
                     ->relationship('pro_types', 'name_protype')
-                    ->label('Tipo de producto'),
+                    ->label('Tipo de producto')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name_protype')->required()->label('Nombre de tipo'),
+                        Forms\Components\Textarea::make('descrip_protype')->label('Descripción'),
+                    ]),
             ]);
     }
 
