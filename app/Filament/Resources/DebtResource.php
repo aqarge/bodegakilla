@@ -18,8 +18,8 @@ class DebtResource extends Resource
     protected static ?string $model = Debt::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Fiados';
-    protected static ?string $navigationGroup = 'Libro de fiados';
+    protected static ?string $navigationLabel = 'Cuenta';
+    protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
     {
@@ -35,11 +35,11 @@ class DebtResource extends Resource
                         Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
                         Forms\Components\TextInput::make('phone_cli')->label('Celular'),
                     ]),
-                    
+
                 Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda'),
                 Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
 
-                
+
             ]);
     }
 
@@ -51,7 +51,7 @@ class DebtResource extends Resource
                 Tables\Columns\TextColumn::make('name_debt')->label('Descripción'),
                 Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
                 Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
-                
+
             ])
             ->filters([
                 //

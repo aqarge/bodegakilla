@@ -19,7 +19,7 @@ class ProTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Tipos de productos';
-    protected static ?string $navigationGroup = 'Inventario de tienda';
+    protected static ?string $navigationGroup = 'Inventario de productos';
 
     public static function form(Form $form): Form
     {

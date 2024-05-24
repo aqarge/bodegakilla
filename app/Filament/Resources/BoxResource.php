@@ -19,7 +19,7 @@ class BoxResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Cajas diarias';
-    protected static ?string $navigationGroup = 'Libro de caja';
+    protected static ?string $navigationGroup = 'Información de caja';
 
     public static function form(Form $form): Form
     {

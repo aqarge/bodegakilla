@@ -17,10 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity')->nullable()->default(1);
             $table->decimal('amount_debt', 10, 2)->default(0);
-            $table->boolean('status_debt')->default(false);
-            
 
-           
+
+
+
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Debtproduct extends Model
 {
     use HasFactory;
-    protected $fillable = ['debt_id', 'product_id', 'quantity'];
+    protected $fillable = ['debt_id', 'product_id', 'quantity', 'amount_debt'];
 
     public function debt()
     {

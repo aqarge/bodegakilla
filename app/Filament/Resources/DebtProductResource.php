@@ -18,7 +18,8 @@ class DebtProductResource extends Resource
     protected static ?string $model = DebtProduct::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Productos Fiados';
+    protected static ?string $navigationLabel = 'Fiados';
+    protected static ?string $navigationGroup = 'Principales registros';
 
     public static function form(Form $form): Form
 {
@@ -40,7 +41,7 @@ class DebtProductResource extends Resource
                         Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
                         Forms\Components\TextInput::make('phone_cli')->label('Celular'),
                     ]),
-                    
+
                 Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda'),
                 Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
                 ]),
@@ -74,13 +75,7 @@ class DebtProductResource extends Resource
                 ->required()
                 ->label('Monto de la deuda'),
 
-            Forms\Components\Radio::make('status_debt')
-                ->options([
-                    '1' => 'Pagado',
-                    '0' => 'Falta pagar',
-                ])
-                ->label('Estado de la deuda')
-                ->required(),
+
         ]);
 }
 
