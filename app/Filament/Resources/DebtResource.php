@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DebtResource\Pages;
 use App\Filament\Resources\DebtResource\RelationManagers;
+use App\Filament\Resources\DebtResource\RelationManagers\ProductsRelationManager;
 use App\Models\Debt;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -20,7 +21,7 @@ class DebtResource extends Resource
     protected static ?string $model = Debt::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-rectangle-stack';
-    protected static ?string $navigationLabel = 'Cuentas';
+    protected static ?string $navigationLabel = '►►FIADOS';
     protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
@@ -38,7 +39,7 @@ class DebtResource extends Resource
                         Forms\Components\TextInput::make('phone_cli')->label('Celular'),
                     ]),
                     
-                Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda'),
+                //Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda'),
                 Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
                 Forms\Components\TextInput::make('total_debt')->label('Monto total de la deuda'),
                 Radio::make('status_debt')->label('Estado de la deuda')
@@ -57,7 +58,7 @@ class DebtResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('client.name_cli')->label('Cliente'),
-                Tables\Columns\TextColumn::make('name_debt')->label('Cuenta'),
+                //Tables\Columns\TextColumn::make('name_debt')->label('Cuenta'),
                 Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
                 Tables\Columns\TextColumn::make('total_debt')->label('Deuda total'),
                 IconColumn::make('status_debt')->label('Estado')
@@ -91,7 +92,7 @@ class DebtResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductsRelationManager::class
         ];
     }
 

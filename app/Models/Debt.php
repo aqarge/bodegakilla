@@ -16,7 +16,7 @@ class Debt extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'debt_products')->withPivot('quantity')
+        return $this->belongsToMany(Product::class, 'debtproducts')->withPivot(['quantity','subtotal'])
         ->withTimestamps();
     }
 

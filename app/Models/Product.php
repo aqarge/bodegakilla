@@ -13,7 +13,8 @@ class Product extends Model
 
     public function debts(): BelongsToMany
     {
-    return $this->belongsToMany(Debt::class, 'debt_products');
+        return $this->belongsToMany(Debt::class, 'debtproducts')->withPivot(['quantity','subtotal'])
+        ->withTimestamps();
     }
 
     public function pro_types(): HasMany
