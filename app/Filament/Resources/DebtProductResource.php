@@ -18,8 +18,8 @@ class DebtProductResource extends Resource
     protected static ?string $model = DebtProduct::class;
 
     protected static ?string $navigationIcon = 'heroicon-m-user-plus';
-    protected static ?string $navigationLabel = 'Fiados';
-    protected static ?string $navigationGroup = 'PRINCIPALES REGISTROS';
+    protected static ?string $navigationLabel = '►►FIADOS ';
+    protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
 {

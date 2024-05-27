@@ -19,7 +19,7 @@ class DebtResource extends Resource
 {
     protected static ?string $model = Debt::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-rectangle-stack';
     protected static ?string $navigationLabel = 'Cuentas';
     protected static ?string $navigationGroup = 'Información de fiados';
 
@@ -62,8 +62,8 @@ class DebtResource extends Resource
                 Tables\Columns\TextColumn::make('total_debt')->label('Deuda total'),
                 IconColumn::make('status_debt')->label('Estado')
                 ->icon(fn (string $state): string => match ($state) {
-                    '0' => 'heroicon-o-hand-thumb-down',
-                    '1' => 'heroicon-o-hand-thumb-up',
+                    '0' => 'heroicon-s-hand-thumb-down',
+                    '1' => 'heroicon-s-hand-thumb-up',
                 
                 })
                 ->color(fn (string $state): string => match ($state) {
