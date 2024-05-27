@@ -17,7 +17,7 @@ class ProTypeResource extends Resource
 {
     protected static ?string $model = Pro_type::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-document-plus';
     protected static ?string $navigationLabel = 'Tipos de productos';
     protected static ?string $navigationGroup = 'Inventario de productos';
 

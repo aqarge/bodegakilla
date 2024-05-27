@@ -17,9 +17,9 @@ class DebtProductResource extends Resource
 {
     protected static ?string $model = DebtProduct::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-user-plus';
     protected static ?string $navigationLabel = 'Fiados';
-    protected static ?string $navigationGroup = 'Principales registros';
+    protected static ?string $navigationGroup = 'PRINCIPALES REGISTROS';
 
     public static function form(Form $form): Form
 {

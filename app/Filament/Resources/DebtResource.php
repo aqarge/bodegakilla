@@ -12,13 +12,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Radio;
+use Filament\Tables\Columns\IconColumn;
 
 class DebtResource extends Resource
 {
     protected static ?string $model = Debt::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Cuenta';
+    protected static ?string $navigationLabel = 'Cuentas';
     protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
@@ -35,11 +37,18 @@ class DebtResource extends Resource
                         Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
                         Forms\Components\TextInput::make('phone_cli')->label('Celular'),
                     ]),
-
+                    
                 Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda'),
                 Forms\Components\TextInput::make('descrip_debt')->label('Descripción de la deuda'),
+                Forms\Components\TextInput::make('total_debt')->label('Monto total de la deuda'),
+                Radio::make('status_debt')->label('Estado de la deuda')
+                ->options([
+                    '0' => 'Falta pagar',
+                    '1' => 'Pagado',
+                ])
 
 
+                
             ]);
     }
 
@@ -48,10 +57,23 @@ class DebtResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('client.name_cli')->label('Cliente'),
-                Tables\Columns\TextColumn::make('name_debt')->label('Descripción'),
+                Tables\Columns\TextColumn::make('name_debt')->label('Cuenta'),
                 Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
+                Tables\Columns\TextColumn::make('total_debt')->label('Deuda total'),
+                IconColumn::make('status_debt')->label('Estado')
+                ->icon(fn (string $state): string => match ($state) {
+                    '0' => 'heroicon-o-hand-thumb-down',
+                    '1' => 'heroicon-o-hand-thumb-up',
+                
+                })
+                ->color(fn (string $state): string => match ($state) {
+                    '0' => 'danger',
+                    '1' => 'success',
+                    default => 'gray',
+                }),
+            
                 Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
-
+                
             ])
             ->filters([
                 //

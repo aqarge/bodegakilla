@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name_debt')->nullable();
             $table->boolean('status_debt')->default(false);
             $table->string('descrip_debt')->nullable();
+            $table->decimal('total_debt', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
             $table->timestamps();
         });
     }
@@ -29,3 +30,4 @@ return new class extends Migration
         Schema::dropIfExists('debts');
     }
 };
+

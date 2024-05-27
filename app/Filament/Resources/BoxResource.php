@@ -17,7 +17,7 @@ class BoxResource extends Resource
 {
     protected static ?string $model = Box::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-archive-box';
     protected static ?string $navigationLabel = 'Cajas diarias';
     protected static ?string $navigationGroup = 'Información de caja';
 
@@ -26,6 +26,9 @@ class BoxResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
+                Forms\Components\TextInput::make('income')->label('Ingresos del día'),
+                Forms\Components\TextInput::make('expenses')->label('Egresos del día'),
+                Forms\Components\TextInput::make('revenue')->label('Ganancia del día'),
             ]);
     }
 
@@ -34,6 +37,9 @@ class BoxResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('opening')->label('Fecha de apertura'),
+                Tables\Columns\TextColumn::make('income')->label('Ingresos del día'),
+                Tables\Columns\TextColumn::make('expenses')->label('Egresos del día'),
+                Tables\Columns\TextColumn::make('revenue')->label('Ganancia del día'),
             ])
             ->filters([
                 //

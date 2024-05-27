@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('debtproducts', function (Blueprint $table) {
             $table->id();
-           $table->unsignedBigInteger('debt_id');
+            $table->unsignedBigInteger('debt_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity')->nullable()->default(1);
             $table->decimal('amount_debt', 10, 2)->default(0);
-
-
-
-
             $table->timestamps();
         });
     }
