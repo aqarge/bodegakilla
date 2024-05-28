@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('debts', function (Blueprint $table) {
+        Schema::create('totaldebts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('name_debt')->nullable();
-            $table->boolean('status_debt')->default(false);
-            $table->string('descrip_debt')->nullable();
-            $table->decimal('total_debt', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
+            $table->decimal('total_amount', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
+            $table->boolean('state_debt')->default(False);
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
@@ -27,7 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debts');
+        Schema::dropIfExists('totaldebts');
     }
 };
-

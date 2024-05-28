@@ -10,11 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Transaction extends Model
 {
     use HasFactory;
-    public function tran_types(): BelongsTo
-    {
-        //return $this->hasMany(Tran_type::class);
-        return $this->belongsTo(Tran_type::class);
-    }
+    
     public function boxes(): BelongsTo
     {
         //return $this->hasMany(Tran_type::class);

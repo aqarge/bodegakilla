@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Radio;
+use Filament\Tables\Columns\IconColumn;
 
 
 
@@ -29,17 +31,6 @@ class TransactionResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('amount_tran')->required()->label('Amount Transaction'),
                 Forms\Components\Textarea::make('descrip_tran')->label('Description Transaction'),
-
-                Forms\Components\Select::make('tran_types_id')->required()
-                    ->relationship('tran_types', 'name_type')
-                    ->label('Transaction Type')
-                    ->preload()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name_type')->required()->label('Name Type'),
-                        Forms\Components\Textarea::make('descrip_type')->label('Description Type'),
-                    ]),
-
-
                 Forms\Components\Select::make('boxes_id')->required()
                     ->relationship('boxes', 'opening')
                     ->label('fecha de caja')
@@ -47,6 +38,12 @@ class TransactionResource extends Resource
                     ->createOptionForm([
                         Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
                     ]),
+                Radio::make('type_tran')->label('Estado de la deuda')
+                ->options([
+                    'inicial' => 'Saldo inicial',
+                    'ingreso' => 'Ingreso',
+                    'egreso' => 'Egreso',
+                ])
 
             ]);
     }
@@ -54,18 +51,30 @@ class TransactionResource extends Resource
     public static function table(Table $table): Table
 {
     // Calcular el total de ingresos
-    $totalIngresos = Transaction::where('tran_types_id', '=', 1)->sum('amount_tran');
+    //$totalIngresos = Transaction::where('tran_types_id', '=', 1)->sum('amount_tran');
 
     // Calcular el total de egresos
-    $totalEgresos = Transaction::where('tran_types_id', '=', 2)->sum('amount_tran');
+    //$totalEgresos = Transaction::where('tran_types_id', '=', 2)->sum('amount_tran');
 
     // Calcular el saldo
-    $saldo = $totalIngresos - $totalEgresos;
+    //$saldo = $totalIngresos - $totalEgresos;
 
     return $table
     ->columns([
         Tables\Columns\TextColumn::make('amount_tran')->label('Monto'),
-        Tables\Columns\TextColumn::make('tran_types.name_type')->label('Tipo'),
+        IconColumn::make('type_tran')->label('Tipo')
+                ->icon(fn (string $state): string => match ($state) {
+                    'inicial' => 'heroicon-c-banknotes',
+                    'ingreso' => 'heroicon-m-arrow-trending-up',
+                    'egreso' => 'heroicon-m-arrow-trending-down',
+                
+                })
+                ->color(fn (string $state): string => match ($state) {
+                    'inicial' => 'info',
+                    'ingreso' => 'success',
+                    'egreso' => 'danger',
+                    default => 'gray',
+                }),
         Tables\Columns\TextColumn::make('boxes.opening')->label('Caja'),
         Tables\Columns\TextColumn::make('descrip_tran')->label('Descripcion'),
         Tables\Columns\TextColumn::make('created_at')->label('Fecha de Creación'),

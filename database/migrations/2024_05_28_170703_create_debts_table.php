@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use PHPUnit\Framework\Constraint\IsFalse;
 
 return new class extends Migration
 {
@@ -11,10 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tran_types', function (Blueprint $table) {
+        Schema::create('debts', function (Blueprint $table) {
             $table->id();
-            $table->string('name_type');
-            $table->string('descrip_type')->nullable();
+            $table->foreignId('totaldebt_id')->constrained()->cascadeOnDelete();
+            $table->text('descrip_debt')->nullable();
+            $table->decimal('total_debt', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
             $table->timestamps();
         });
     }
@@ -24,6 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tran_types');
+        Schema::dropIfExists('debts');
     }
 };
+
