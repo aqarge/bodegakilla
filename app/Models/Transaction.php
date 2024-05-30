@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Transaction extends Model
 {
     use HasFactory;
-    
+    protected $fillable = [
+        'amount_tran', 'descrip_tran', 'boxes_id', 'type_tran'
+    ];
+
     public function boxes(): BelongsTo
     {
-        //return $this->hasMany(Tran_type::class);
-        return $this->belongsTo(Box::class);
+        return $this->belongsTo(Box::class, 'boxes_id');
     }
-
+    
 }

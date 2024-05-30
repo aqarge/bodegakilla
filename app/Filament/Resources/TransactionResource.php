@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Radio;
 use Filament\Tables\Columns\IconColumn;
+use App\Events\TransactionCreated;
+use App\Filament\Resources\TransactionResource\Pages\CreateTransaction;
 
 
 
@@ -50,15 +52,6 @@ class TransactionResource extends Resource
 
     public static function table(Table $table): Table
 {
-    // Calcular el total de ingresos
-    //$totalIngresos = Transaction::where('tran_types_id', '=', 1)->sum('amount_tran');
-
-    // Calcular el total de egresos
-    //$totalEgresos = Transaction::where('tran_types_id', '=', 2)->sum('amount_tran');
-
-    // Calcular el saldo
-    //$saldo = $totalIngresos - $totalEgresos;
-
     return $table
     ->columns([
         Tables\Columns\TextColumn::make('amount_tran')->label('Monto'),

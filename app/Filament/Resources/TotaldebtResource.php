@@ -53,8 +53,7 @@ class TotaldebtResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client.name_cli')->label('Cliente'),
-                
+                Tables\Columns\TextColumn::make('name_debt')->label('Cliente'),
                 Tables\Columns\TextColumn::make('total_amount')->label('Deuda total'),
                 IconColumn::make('state_debt')->label('Estado')
                 ->icon(fn (string $state): string => match ($state) {

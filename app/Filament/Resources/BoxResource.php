@@ -45,7 +45,7 @@ class BoxResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -66,7 +66,7 @@ class BoxResource extends Resource
         return [
             'index' => Pages\ListBoxes::route('/'),
             'create' => Pages\CreateBox::route('/create'),
-            'edit' => Pages\EditBox::route('/{record}/edit'),
+            //'edit' => Pages\EditBox::route('/{record}/edit'),
         ];
     }
 }

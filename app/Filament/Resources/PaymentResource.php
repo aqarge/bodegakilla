@@ -43,8 +43,9 @@ class PaymentResource extends Resource
                             Forms\Components\TextInput::make('phone_cli')->label('Celular'),
                         ]),
                     ]),
+                Forms\Components\TextInput::make('pay')->label('Monto a pagar'),
                 Forms\Components\TextArea::make('notes')->label('Notas'),
-                Forms\Components\TextInput::make('total_amount')->label('Monto a pagar'),
+                
                     
             ]);
     }
@@ -53,7 +54,10 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('totaldebt.name_debt')->label('Cliente'),
+                Tables\Columns\TextColumn::make('pay')->label('Pago'),
+                Tables\Columns\TextColumn::make('notes')->label('Notas'),
+                
             ])
             ->filters([
                 //
