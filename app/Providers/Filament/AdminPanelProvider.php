@@ -29,7 +29,13 @@ class AdminPanelProvider extends PanelProvider
             ->profile()
             ->login()
             ->colors([
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
                 'primary' => Color::Teal,
+
             ])
             ->brandLogo(asset('images/logo.png'))
             ->favicon(asset('images/favicon.png'))
