@@ -28,10 +28,10 @@ class BoxResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
-                Forms\Components\TextInput::make('income')->label('Ingresos del día'),
-                Forms\Components\TextInput::make('expenses')->label('Egresos del día'),
-                Forms\Components\TextInput::make('revenue')->label('Ganancia del día'),
+                Forms\Components\DatePicker::make('opening')->required()->unique()->label('Fecha de apertura'),
+                Forms\Components\TextInput::make('income')->label('Ingresos del día')->default(0),
+                Forms\Components\TextInput::make('expenses')->label('Egresos del día')->default(0),
+                Forms\Components\TextInput::make('revenue')->label('Ganancia del día')->default(0),
             ]);
     }
 
