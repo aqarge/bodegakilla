@@ -12,13 +12,16 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\Filter;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class BoxResource extends Resource
 {
     protected static ?string $model = Box::class;
 
     protected static ?string $navigationIcon = 'heroicon-m-archive-box';
-    protected static ?string $navigationLabel = 'Cajas diarias';
+    protected static ?string $modelLabel = 'Cajas diarias';
     protected static ?string $navigationGroup = 'Información de caja';
 
     public static function form(Form $form): Form
@@ -36,19 +39,38 @@ class BoxResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('opening')->label('Fecha de apertura'),
+                Tables\Columns\TextColumn::make('opening')->label('Fecha de apertura')
+                ->searchable()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('income')->label('Ingresos del día'),
                 Tables\Columns\TextColumn::make('expenses')->label('Egresos del día'),
-                Tables\Columns\TextColumn::make('revenue')->label('Ganancia del día'),
+                Tables\Columns\TextColumn::make('revenue')->label('Saldo del día'),
             ])
             ->filters([
-                //
+                Filter::make('opening')->label('Fecha de apertura de caja')
+    ->form([
+        DatePicker::make('Desde'),
+        DatePicker::make('Hasta'),
+    ])
+    ->query(function (Builder $query, array $data): Builder {
+        return $query
+            ->when(
+                $data['Desde'],
+                fn (Builder $query, $date): Builder => $query->whereDate('opening', '>=', $date),
+            )
+            ->when(
+                $data['Hasta'],
+                fn (Builder $query, $date): Builder => $query->whereDate('opening', '<=', $date),
+            );
+    })
             ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    TablesExportBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

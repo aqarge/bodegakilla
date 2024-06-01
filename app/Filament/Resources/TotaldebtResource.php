@@ -14,13 +14,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Radio;
 use Filament\Tables\Columns\IconColumn;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class TotaldebtResource extends Resource
 {
     protected static ?string $model = Totaldebt::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Cuentas';
+    protected static ?string $navigationIcon = 'heroicon-c-document-text';
+    protected static ?string $modelLabel = 'Cuentas';
     protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
@@ -53,7 +54,8 @@ class TotaldebtResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_debt')->label('Cliente'),
+                Tables\Columns\TextColumn::make('name_debt')->label('Cliente')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('total_amount')->label('Deuda total'),
                 IconColumn::make('state_debt')->label('Estado')
                 ->icon(fn (string $state): string => match ($state) {
@@ -71,13 +73,19 @@ class TotaldebtResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('state_debt')->label('¿Pagado o no?')
+                ->options([
+                    '0' => 'No pagado',
+                    '1' => 'Pagado',
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    TablesExportBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

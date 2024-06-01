@@ -15,13 +15,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Radio;
 use Filament\Tables\Columns\IconColumn;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class DebtResource extends Resource
 {
     protected static ?string $model = Debt::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-rectangle-stack';
-    protected static ?string $navigationLabel = '►►FIADOS';
+    protected static ?string $modelLabel = '►►FIADOS';
     protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
@@ -65,7 +66,8 @@ class DebtResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('totaldebt.name_debt')->label('Cuenta'),
+                Tables\Columns\TextColumn::make('totaldebt.name_debt')->label('Cuenta')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('descrip_debt')->label('Descripción'),
                 Tables\Columns\TextColumn::make('total_debt')->label('Deuda total'),
                 Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
@@ -76,9 +78,11 @@ class DebtResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    TablesExportBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

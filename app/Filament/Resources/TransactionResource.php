@@ -16,31 +16,34 @@ use Filament\Forms\Components\Radio;
 use Filament\Tables\Columns\IconColumn;
 use App\Events\TransactionCreated;
 use App\Filament\Resources\TransactionResource\Pages\CreateTransaction;
-
-
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Filters\Filter;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-currency-dollar';
-    protected static ?string $navigationLabel = '►►TRANSACCIONES';
+    protected static ?string $navigationIcon = 'heroicon-c-presentation-chart-line';
+    //protected static ?string $navigationLabel = '►►TRANSACCIONES';
+    protected static ?string $modelLabel = '►►TRANSACCIONES';
     protected static ?string $navigationGroup = 'Información de caja';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('amount_tran')->required()->label('Amount Transaction'),
-                Forms\Components\Textarea::make('descrip_tran')->label('Description Transaction'),
+                Forms\Components\TextInput::make('amount_tran')->required()->label('Monto de transacción'),
+                Forms\Components\Textarea::make('descrip_tran')->label('Descripción'),
                 Forms\Components\Select::make('boxes_id')->required()
                     ->relationship('boxes', 'opening')
-                    ->label('fecha de caja')
+                    ->label('Fecha de caja')
                     ->preload()
                     ->createOptionForm([
                         Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
                     ]),
-                Radio::make('type_tran')->label('Estado de la deuda')
+                Radio::make('type_tran')->label('Tipo de transacción')
                 ->options([
                     'inicial' => 'Saldo inicial',
                     'ingreso' => 'Ingreso',
@@ -68,19 +71,43 @@ class TransactionResource extends Resource
                     'egreso' => 'danger',
                     default => 'gray',
                 }),
-        Tables\Columns\TextColumn::make('boxes.opening')->label('Caja'),
+        Tables\Columns\TextColumn::make('boxes.opening')->label('Caja')->sortable()->searchable(),
         Tables\Columns\TextColumn::make('descrip_tran')->label('Descripcion'),
         Tables\Columns\TextColumn::make('created_at')->label('Fecha de Creación'),
     ])
     ->filters([
-
+        Filter::make('created_at')->label('Fecha de creación')
+    ->form([
+        DatePicker::make('Desde'),
+        DatePicker::make('Hasta'),
+    ])
+    ->query(function (Builder $query, array $data): Builder {
+        return $query
+            ->when(
+                $data['Desde'],
+                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+            )
+            ->when(
+                $data['Hasta'],
+                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+            );
+    }),
+    Tables\Filters\SelectFilter::make('type_tran')->label('Tipo de transacción')
+    ->options([
+        'inicial' => 'Monto inicial',
+        'ingreso' => 'Ingresos',
+        'egreso' => 'Egresos',
+    ]),
+    
 
     ])
     ->actions([
         Tables\Actions\EditAction::make(),
+        Tables\Actions\DeleteAction::make(),
     ])
     ->bulkActions([
         Tables\Actions\BulkActionGroup::make([
+            TablesExportBulkAction::make(),
             Tables\Actions\DeleteBulkAction::make(),
         ]),
     ]);

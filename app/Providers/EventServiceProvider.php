@@ -16,6 +16,9 @@ use App\Events\PaymentCreated;
 use App\Events\PaymentUpdated;
 use App\Events\PaymentDeleted;
 use App\Listeners\UpdatePayments;
+use App\Listeners\UpdateDebtState;
+use App\Observers\TotaldebtObserver;
+use App\Models\Totaldebt;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -58,6 +61,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
+        Totaldebt::observe(TotaldebtObserver::class);
     }
 
     /**

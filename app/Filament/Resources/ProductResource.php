@@ -12,13 +12,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-m-inbox-stack';
-    protected static ?string $navigationLabel = 'Productos';
+    protected static ?string $modelLabel = 'Productos';
     protected static ?string $navigationGroup = 'Inventario de productos';
 
     public static function form(Form $form): Form
@@ -44,7 +45,8 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_pro')->label('Nombre del producto'),
+                Tables\Columns\TextColumn::make('name_pro')->label('Nombre del producto')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('descrip_pro')->label('Descripcion'),
                 Tables\Columns\TextColumn::make('price_pro')->label('Precio del producto'),
                 Tables\Columns\TextColumn::make('expiration')->label('Fecha de vencimiento'),
@@ -56,9 +58,11 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    TablesExportBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

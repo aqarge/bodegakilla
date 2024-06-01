@@ -12,13 +12,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class ClientResource extends Resource
 {
     protected static ?string $model = Client::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-users';
-    protected static ?string $navigationLabel = 'Clientes';
+    protected static ?string $modelLabel = 'Clientes';
     protected static ?string $navigationGroup = 'Información de fiados';
 
     public static function form(Form $form): Form
@@ -36,7 +37,8 @@ class ClientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_cli')->label('Nombre del cliente'),
+                Tables\Columns\TextColumn::make('name_cli')->label('Nombre del cliente')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('surname_cli')->label('Apellidos del cliente'),
                 Tables\Columns\TextColumn::make('nick_cli')->label('Apodo del cliente'),
                 Tables\Columns\TextColumn::make('phone_cli')->label('Celular'),
@@ -46,9 +48,11 @@ class ClientResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    TablesExportBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
