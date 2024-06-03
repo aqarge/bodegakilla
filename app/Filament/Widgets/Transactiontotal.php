@@ -7,7 +7,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use App\Models\Transaction;
 
-class TransactionTotal extends BaseWidget
+class Transactiontotal extends BaseWidget
 {
     protected function getStats(): array
     {

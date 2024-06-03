@@ -44,15 +44,25 @@ class ProductsRelationManager extends RelationManager
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
                     ->form(fn (AttachAction $action): array => [
-                        $action->getRecordSelect()
-                            ->live()
+                        Select::make('product_id')
+                            ->label('Producto')
+                            ->searchable()
+                            ->getSearchResultsUsing(function (string $query) {
+                                return Product::where('name_pro', 'like', "%{$query}%")
+                                    ->orWhere('id', 'like', "%{$query}%")
+                                    ->get()
+                                    ->mapWithKeys(fn ($product) => [$product->id => $product->name_pro . ' (Código: ' . $product->id . ')']);
+                            })
+                            ->getOptionLabelUsing(fn ($value) => Product::find($value)?->name_pro . ' (Código: ' . $value . ')')
                             ->afterStateUpdated(function ($state, Get $get, Set $set) {
-                                $producto = Product::find($state);
-                                $set('precio', $producto->price_pro);
-                                // Recalcula el subtotal si ya se ha ingresado una cantidad
-                                $quantity = $get('quantity');
-                                if ($quantity) {
-                                    $set('subtotal', $producto->price_pro * $quantity);
+                                $product = Product::find($state);
+                                if ($product) {
+                                    $set('precio', $product->price_pro);
+                                    // Recalcula el subtotal si ya se ha ingresado una cantidad
+                                    $quantity = $get('quantity');
+                                    if ($quantity) {
+                                        $set('subtotal', $product->price_pro * $quantity);
+                                    }
                                 }
                             }),
                         Forms\Components\TextInput::make('precio')

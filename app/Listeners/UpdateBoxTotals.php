@@ -15,13 +15,22 @@ class UpdateBoxTotals
         $transaction = $event->transaction;
         $box = $transaction->boxes;
 
-        if ($transaction->type_tran === 'ingreso') {
+        // Verifica si es una transacción de saldo inicial
+        if ($transaction->type_tran === 'inicial') {
+            $box->inbalance = $transaction->amount_tran;
+        } elseif ($transaction->type_tran === 'ingreso') {
             $box->income += $transaction->amount_tran;
         } elseif ($transaction->type_tran === 'egreso') {
             $box->expenses += $transaction->amount_tran;
         }
 
+        // Calcula el saldo del día
         $box->revenue = $box->income - $box->expenses;
+
+        // Calcula el saldo total
+        $box->tobalance = $box->inbalance + $box->income - $box->expenses;
+
+        // Guarda los cambios en la base de datos
         $box->save();
     }
 }
