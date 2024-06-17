@@ -29,7 +29,7 @@ class ClientResource extends Resource
                 Forms\Components\TextInput::make('name_cli')->required()->label('Nombre del cliente'),
                 Forms\Components\Textarea::make('surname_cli')->label('Apellidos del cliente'),
                 Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
-                Forms\Components\TextInput::make('phone_cli')->label('Celular'),
+                Forms\Components\TextInput::make('phone_cli')->label('Celular')->numeric(),
             ]);
     }
 

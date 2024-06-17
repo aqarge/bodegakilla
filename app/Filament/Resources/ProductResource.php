@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
+use App\Models\Pro_type;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,8 +30,7 @@ class ProductResource extends Resource
 
                 Forms\Components\TextInput::make('name_pro')->required()->label('Nombre del producto'),
                 Forms\Components\Textarea::make('descrip_pro')->label('Descripcion del producto'),
-                Forms\Components\TextInput::make('price_pro')->required()->label('Precio del producto'),
-                Forms\Components\DatePicker::make('expiration')->label('Fecha de vencimiento'),
+                Forms\Components\TextInput::make('price_pro')->required()->numeric()->prefix('S/. ')->label('Precio del producto'),
                 Forms\Components\Select::make('pro_type_id')->required()
                     ->relationship('pro_types', 'name_protype')
                     ->label('Tipo de producto')
@@ -50,9 +50,8 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name_pro')->label('Nombre del producto')
                 ->searchable(),
                 Tables\Columns\TextColumn::make('descrip_pro')->label('Descripcion'),
-                Tables\Columns\TextColumn::make('price_pro')->label('Precio del producto'),
-                Tables\Columns\TextColumn::make('expiration')->label('Fecha de vencimiento'),
-                Tables\Columns\TextColumn::make('pro_type.name_protype')->label('Tipo de producto'),
+                Tables\Columns\TextColumn::make('price_pro')->prefix('S/. ')->label('Precio del producto'),
+                Tables\Columns\TextColumn::make('protype.name_protype')->label('Tipo de producto'),
 
             ])
             ->filters([

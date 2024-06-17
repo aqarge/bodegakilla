@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TotaldebtResource\Pages;
 use App\Filament\Resources\TotaldebtResource\RelationManagers;
 use App\Models\Totaldebt;
+use App\Models\Client; // Importar el modelo de Cliente
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -32,21 +33,36 @@ class TotaldebtResource extends Resource
                     ->required()
                     ->relationship('client', 'name_cli')
                     ->label('Cliente')
+                    ->preload()
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name_cli')->required()->label('Nombre del cliente'),
                         Forms\Components\Textarea::make('surname_cli')->label('Apellidos del cliente'),
                         Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
                         Forms\Components\TextInput::make('phone_cli')->label('Celular'),
-                    ]),
-                Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda (nombre del cliente)'),
+                    ])
+                    ->afterStateUpdated(function (callable $set, $state) {
+                        $client = Client::find($state);
+                        if ($client) {
+                            $set('name_debt', $client->name_cli);
+                        }
+                    }),
+                Forms\Components\TextInput::make('name_debt')
+                    ->label('Nombre de la deuda (nombre del cliente)'),
                 Forms\Components\TextArea::make('notes')->label('Notas'),
-                Forms\Components\TextInput::make('total_amount')->label('Monto total de la deuda'),
+                Forms\Components\TextInput::make('total_amount')->prefix('S/. ')->label('Monto total de la deuda')->default(0),
                 Radio::make('state_debt')->label('Estado de la deuda')
                 ->options([
                     '0' => 'Falta pagar',
                     '1' => 'Pagado',
                 ])
-
+                ->default(0),
+                Radio::make('risk')->label('Cantidad por cobrar')
+                ->options([
+                    'baja' => 'Baja',
+                    'moderada' => 'Moderada',
+                    'alta' => 'Alta',
+                ])
+                ->default('baja')
             ]);
     }
 
@@ -56,20 +72,30 @@ class TotaldebtResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name_debt')->label('Cliente')
                 ->searchable(),
-                Tables\Columns\TextColumn::make('total_amount')->label('Deuda total'),
+                Tables\Columns\TextColumn::make('total_amount')->prefix('S/. ')->label('Deuda total'),
                 IconColumn::make('state_debt')->label('Estado')
                 ->icon(fn (string $state): string => match ($state) {
                     '0' => 'heroicon-s-hand-thumb-down',
                     '1' => 'heroicon-s-hand-thumb-up',
-                
                 })
                 ->color(fn (string $state): string => match ($state) {
                     '0' => 'danger',
                     '1' => 'success',
                     default => 'gray',
                 }),
+                IconColumn::make('risk')->label('Cantidad por cobrar')
+                ->icon(fn (string $state): string => match ($state) {
+                    'baja' => 'heroicon-m-shield-check',
+                    'moderada' => 'heroicon-c-pause-circle',
+                    'alta' => 'heroicon-m-shield-exclamation',
+                })
+                ->color(fn (string $state): string => match ($state) {
+                    'baja' => 'success',
+                    'moderada' => 'warning',
+                    'alta' => 'danger',
+                    default => 'gray',
+                }),
                 Tables\Columns\TextColumn::make('notes')->label('Notas'),
-            
                 Tables\Columns\TextColumn::make('created_at')->label('Fecha de creación'),
             ])
             ->filters([
@@ -94,7 +120,7 @@ class TotaldebtResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PaymentsRelationManager::class,
         ];
     }
 

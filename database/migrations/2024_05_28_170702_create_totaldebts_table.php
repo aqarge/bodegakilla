@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name_debt')->nullable();
             $table->decimal('total_amount', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
             $table->boolean('state_debt')->default(False);
+            $table->string('risk');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

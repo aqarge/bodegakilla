@@ -45,12 +45,23 @@ class TotaldebtObserver
     {
         //
     }
+
     public function saving(Totaldebt $totaldebt)
     {
+        // Actualizar el estado de la deuda basado en el monto total
         if ($totaldebt->total_amount <= 0) {
             $totaldebt->state_debt = 1; // Pagado
         } else {
             $totaldebt->state_debt = 0; // Falta pagar
+        }
+
+        // Actualizar el riesgo basado en el monto total
+        if ($totaldebt->total_amount >= 0 && $totaldebt->total_amount <= 30) {
+            $totaldebt->risk = 'baja'; // Baja
+        } elseif ($totaldebt->total_amount >= 31 && $totaldebt->total_amount <= 80) {
+            $totaldebt->risk = 'moderada'; // Moderada
+        } elseif ($totaldebt->total_amount > 80) {
+            $totaldebt->risk = 'alta'; // Alta
         }
     }
 }

@@ -29,11 +29,11 @@ class BoxResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('opening')->required()->unique()->label('Fecha de apertura'),
-                Forms\Components\TextInput::make('inbalance')->label('Saldo inicial')->default(0),
-                Forms\Components\TextInput::make('income')->label('Ingresos del día')->default(0),
-                Forms\Components\TextInput::make('expenses')->label('Egresos del día')->default(0),
-                Forms\Components\TextInput::make('revenue')->label('Saldo del día')->default(0),
-                Forms\Components\TextInput::make('tobalance')->label('Saldo total')->default(0),
+                Forms\Components\TextInput::make('inbalance')->label('Saldo inicial')->prefix('S/. ')->numeric()->default(0),
+                Forms\Components\TextInput::make('income')->label('Ingresos del día')->prefix('S/. ')->numeric()->default(0),
+                Forms\Components\TextInput::make('expenses')->label('Egresos del día')->prefix('S/. ')->numeric()->default(0),
+                Forms\Components\TextInput::make('revenue')->label('Saldo del día')->prefix('S/. ')->numeric()->default(0),
+                Forms\Components\TextInput::make('tobalance')->label('Saldo total')->prefix('S/. ')->numeric()->default(0),
             ]);
     }
 
@@ -44,11 +44,11 @@ class BoxResource extends Resource
                 Tables\Columns\TextColumn::make('opening')->label('Fecha de apertura')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('inbalance')->label('Saldo inicial'),
-                Tables\Columns\TextColumn::make('income')->label('Ingresos del día'),
-                Tables\Columns\TextColumn::make('expenses')->label('Egresos del día'),
-                Tables\Columns\TextColumn::make('revenue')->label('Saldo del día'),
-                Tables\Columns\TextColumn::make('tobalance')->label('Saldo total'),
+                Tables\Columns\TextColumn::make('inbalance')->prefix('S/. ')->label('Saldo inicial'),
+                Tables\Columns\TextColumn::make('income')->prefix('S/. ')->label('Ingresos del día'),
+                Tables\Columns\TextColumn::make('expenses')->prefix('S/. ')->label('Egresos del día'),
+                Tables\Columns\TextColumn::make('revenue')->prefix('S/. ')->label('Saldo del día'),
+                Tables\Columns\TextColumn::make('tobalance')->prefix('S/. ')->label('Saldo total'),
             ])
             ->filters([
                 Filter::make('opening')->label('Fecha de apertura de caja')
@@ -68,6 +68,7 @@ class BoxResource extends Resource
             );
     })
             ])
+            ->defaultSort('created_at', 'desc')
             ->actions([
                 //Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

@@ -34,7 +34,11 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('amount_tran')->required()->label('Monto de transacción'),
+                Forms\Components\TextInput::make('amount_tran')
+                ->required()
+                ->numeric()
+                ->prefix('S/. ')
+                ->label('Monto de transacción'),
                 Forms\Components\Textarea::make('descrip_tran')->label('Descripción'),
                 Forms\Components\Select::make('boxes_id')->required()
                     ->relationship('boxes', 'opening')
@@ -57,20 +61,20 @@ class TransactionResource extends Resource
 {
     return $table
     ->columns([
-        Tables\Columns\TextColumn::make('amount_tran')->label('Monto'),
         IconColumn::make('type_tran')->label('Tipo')
-                ->icon(fn (string $state): string => match ($state) {
-                    'inicial' => 'heroicon-c-banknotes',
-                    'ingreso' => 'heroicon-m-arrow-trending-up',
-                    'egreso' => 'heroicon-m-arrow-trending-down',
-                
-                })
-                ->color(fn (string $state): string => match ($state) {
-                    'inicial' => 'info',
-                    'ingreso' => 'success',
-                    'egreso' => 'danger',
-                    default => 'gray',
-                }),
+        ->icon(fn (string $state): string => match ($state) {
+            'inicial' => 'heroicon-c-banknotes',
+            'ingreso' => 'heroicon-m-arrow-trending-up',
+            'egreso' => 'heroicon-m-arrow-trending-down',
+        
+        })
+        ->color(fn (string $state): string => match ($state) {
+            'inicial' => 'info',
+            'ingreso' => 'success',
+            'egreso' => 'danger',
+            default => 'gray',
+        }),
+        Tables\Columns\TextColumn::make('amount_tran')->prefix('S/. ')->label('Monto'),
         Tables\Columns\TextColumn::make('boxes.opening')->label('Caja')->sortable()->searchable(),
         Tables\Columns\TextColumn::make('descrip_tran')->label('Descripcion'),
         Tables\Columns\TextColumn::make('created_at')->label('Fecha de Creación'),
@@ -101,6 +105,7 @@ class TransactionResource extends Resource
     
 
     ])
+    ->defaultSort('created_at', 'desc')
     ->actions([
         Tables\Actions\EditAction::make(),
         Tables\Actions\DeleteAction::make(),
@@ -108,7 +113,6 @@ class TransactionResource extends Resource
     ->bulkActions([
         Tables\Actions\BulkActionGroup::make([
             TablesExportBulkAction::make(),
-            Tables\Actions\DeleteBulkAction::make(),
         ]),
     ]);
 

@@ -18,6 +18,7 @@ use Filament\Tables\Actions\AttachAction;
 class ProductsRelationManager extends RelationManager
 {
     protected static string $relationship = 'products';
+    protected static ?string $modelLabel = 'Fiado de productos';
 
     public function form(Form $form): Form
     {

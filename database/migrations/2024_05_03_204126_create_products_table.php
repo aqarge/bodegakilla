@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name_pro');
             $table->text('descrip_pro')->nullable();
             $table->decimal('price_pro', 10,2);
-            $table->date('expiration')->nullable();
             $table->timestamps();
         });
     }
