@@ -80,22 +80,27 @@ class TransactionResource extends Resource
         Tables\Columns\TextColumn::make('created_at')->label('Fecha de Creación'),
     ])
     ->filters([
-        Filter::make('created_at')->label('Fecha de creación')
-    ->form([
-        DatePicker::make('Desde'),
-        DatePicker::make('Hasta'),
-    ])
-    ->query(function (Builder $query, array $data): Builder {
-        return $query
-            ->when(
-                $data['Desde'],
-                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-            )
-            ->when(
-                $data['Hasta'],
-                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-            );
-    }),
+        Filter::make('opening_date')
+        ->label('Fecha de Apertura de Caja')
+        ->form([
+            DatePicker::make('Desde'),
+            DatePicker::make('Hasta'),
+        ])
+        ->query(function (Builder $query, array $data): Builder {
+            return $query
+                ->when(
+                    $data['Desde'] ?? null,
+                    fn (Builder $query, $date): Builder => $query->whereHas('boxes', function (Builder $query) use ($date) {
+                        $query->whereDate('opening', '>=', $date);
+                    }),
+                )
+                ->when(
+                    $data['Hasta'] ?? null,
+                    fn (Builder $query, $date): Builder => $query->whereHas('boxes', function (Builder $query) use ($date) {
+                        $query->whereDate('opening', '<=', $date);
+                    }),
+                );
+        }),
     Tables\Filters\SelectFilter::make('type_tran')->label('Tipo de transacción')
     ->options([
         'inicial' => 'Monto inicial',
@@ -108,7 +113,6 @@ class TransactionResource extends Resource
     ->defaultSort('created_at', 'desc')
     ->actions([
         Tables\Actions\EditAction::make(),
-        Tables\Actions\DeleteAction::make(),
     ])
     ->bulkActions([
         Tables\Actions\BulkActionGroup::make([

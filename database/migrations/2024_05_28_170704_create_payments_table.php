@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('totaldebt_id')->constrained()->cascadeOnDelete();
-            $table->decimal('pay', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments)
+            $table->decimal('pay', 10,1)->default(0); // total_debt = sum(amount_debt) - sum(payments)
             $table->text('notes')->nullable(); 
         });
     }

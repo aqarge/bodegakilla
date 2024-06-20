@@ -19,7 +19,7 @@ class Product extends Model
 
     public function pro_types(): HasMany
     {
-        return $this->HasMany(Pro_type::class);
+        return $this->HasMany(Pro_type::class, 'pro_type_id');
     }
 }
 

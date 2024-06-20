@@ -27,35 +27,39 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-
                 Forms\Components\TextInput::make('name_pro')->required()->label('Nombre del producto'),
-                Forms\Components\Textarea::make('descrip_pro')->label('Descripcion del producto'),
+                Forms\Components\Textarea::make('descrip_pro')->label('Descripción del producto'),
                 Forms\Components\TextInput::make('price_pro')->required()->numeric()->prefix('S/. ')->label('Precio del producto'),
                 Forms\Components\Select::make('pro_type_id')->required()
                     ->relationship('pro_types', 'name_protype')
                     ->label('Tipo de producto')
+                    ->lazy() 
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name_protype')->required()->label('Nombre de tipo'),
                         Forms\Components\Textarea::make('descrip_protype')->label('Descripción'),
-                    ]),
+                    ])
+                    ->searchable(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $proTypes = Pro_type::pluck('name_protype', 'id')->toArray();
+
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('Identificador del producto')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('name_pro')->label('Nombre del producto')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('descrip_pro')->label('Descripcion'),
+                Tables\Columns\TextColumn::make('id')->label('Identificador del producto')->searchable(),
+                Tables\Columns\TextColumn::make('name_pro')->label('Nombre del producto')->searchable(),
+                Tables\Columns\TextColumn::make('descrip_pro')->label('Descripción'),
                 Tables\Columns\TextColumn::make('price_pro')->prefix('S/. ')->label('Precio del producto'),
-                Tables\Columns\TextColumn::make('protype.name_protype')->label('Tipo de producto'),
-
+                Tables\Columns\TextColumn::make('pro_type.name_protype')->label('Tipo de producto'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('pro_type_id')
+                    ->options($proTypes)
+                    ->label('Tipo de producto')
+                    ->placeholder('Seleccione un tipo de producto')
+                    ->searchable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -64,7 +68,6 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     TablesExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

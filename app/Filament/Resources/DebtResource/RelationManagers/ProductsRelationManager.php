@@ -14,11 +14,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Set;
 use Filament\Forms\Get;
 use Filament\Tables\Actions\AttachAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
 class ProductsRelationManager extends RelationManager
 {
     protected static string $relationship = 'products';
-    protected static ?string $modelLabel = 'Fiado de productos';
+    protected static ?string $modelLabel = 'productos para fiado';
 
     public function form(Form $form): Form
     {
@@ -34,9 +35,11 @@ class ProductsRelationManager extends RelationManager
             ->recordTitleAttribute('name_pro')
             ->columns([
                 Tables\Columns\TextColumn::make('name_pro'),
-                Tables\Columns\TextColumn::make('price_pro'),
+                Tables\Columns\TextColumn::make('price_pro')->numeric()
+                ->prefix('S/. '),
                 Tables\Columns\TextColumn::make('quantity'),
-                Tables\Columns\TextColumn::make('subtotal'),
+                Tables\Columns\TextColumn::make('subtotal')->numeric()
+                ->prefix('S/. '),
             ])
             ->filters([
                 //
@@ -68,7 +71,9 @@ class ProductsRelationManager extends RelationManager
     ->getOptionLabelUsing(fn ($value) => Product::find($value)?->name_pro . ' (Código: ' . $value . ')'),
                         Forms\Components\TextInput::make('precio')
                             ->label('Precio')
-                            ->disabled(),
+                            ->disabled()
+                            ->numeric()
+                            ->prefix('S/. '),
                         Forms\Components\TextInput::make('quantity')
                             ->label('Cantidad')
                             ->numeric()
@@ -84,6 +89,7 @@ class ProductsRelationManager extends RelationManager
                             ->label('Subtotal')
                             ->required()
                             ->numeric()
+                            ->prefix('S/. ')
                         ]),
                         Tables\Actions\Action::make('pdf')->icon('heroicon-m-inbox-arrow-down')->iconButton()
                         ->url(fn (): string => route('debttotal.total', ['debt' => $this->getOwnerRecord()]))
@@ -93,7 +99,7 @@ class ProductsRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    TablesExportBulkAction::make(),
                 ]),
             ]);
     }

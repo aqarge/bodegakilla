@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('boxes_id')->constrained('boxes')->cascadeOnDelete();
-            $table->decimal('amount_tran', 10,2);
+            $table->decimal('amount_tran', 10,1);
             $table->text('descrip_tran')->nullable();
             $table->text('type_tran');
             $table->timestamps();

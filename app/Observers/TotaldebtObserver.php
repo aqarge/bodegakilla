@@ -56,7 +56,9 @@ class TotaldebtObserver
         }
 
         // Actualizar el riesgo basado en el monto total
-        if ($totaldebt->total_amount >= 0 && $totaldebt->total_amount <= 30) {
+        if ($totaldebt->total_amount == 0) {
+            $totaldebt->risk = 'nula'; // Nulo
+        } elseif ($totaldebt->total_amount >= 0.1 && $totaldebt->total_amount <= 30) {
             $totaldebt->risk = 'baja'; // Baja
         } elseif ($totaldebt->total_amount >= 31 && $totaldebt->total_amount <= 80) {
             $totaldebt->risk = 'moderada'; // Moderada

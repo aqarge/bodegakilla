@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('name_cli');
-            $table->string('surname_cli')->nullable();
-            $table->string('nick_cli')->nullable();
+            $table->string('name_cli')->unique();
             $table->string('phone_cli')->nullable();
+            $table->text('notes_cli')->nullable();
             $table->timestamps();
         });
     }

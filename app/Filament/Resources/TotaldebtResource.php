@@ -58,11 +58,12 @@ class TotaldebtResource extends Resource
                 ->default(0),
                 Radio::make('risk')->label('Cantidad por cobrar')
                 ->options([
+                    'nula' => 'Nula',
                     'baja' => 'Baja',
                     'moderada' => 'Moderada',
                     'alta' => 'Alta',
                 ])
-                ->default('baja')
+                ->default('nula')
             ]);
     }
 
@@ -85,11 +86,13 @@ class TotaldebtResource extends Resource
                 }),
                 IconColumn::make('risk')->label('Cantidad por cobrar')
                 ->icon(fn (string $state): string => match ($state) {
+                    'nula' => 'heroicon-c-minus-circle',
                     'baja' => 'heroicon-m-shield-check',
                     'moderada' => 'heroicon-c-pause-circle',
                     'alta' => 'heroicon-m-shield-exclamation',
                 })
                 ->color(fn (string $state): string => match ($state) {
+                    'nula' => 'gray',
                     'baja' => 'success',
                     'moderada' => 'warning',
                     'alta' => 'danger',
@@ -104,7 +107,14 @@ class TotaldebtResource extends Resource
                     '0' => 'No pagado',
                     '1' => 'Pagado',
                 ]),
+                Tables\Filters\SelectFilter::make('risk')->label('Cantidad por cobrar')
+                ->options([
+                    'baja' => 'Baja',
+                    'moderada' => 'Moderada',
+                    'alta' => 'Alta',
+                ]),
             ])
+            ->defaultSort('created_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -112,7 +122,6 @@ class TotaldebtResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     TablesExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -44,10 +44,9 @@ class DebtResource extends Resource
                     ->preload() 
                     ->searchable() 
                     ->createOptionForm([
-                        Forms\Components\TextInput::make('name_cli')->required()->label('Nombre del cliente'),
-                        Forms\Components\Textarea::make('surname_cli')->label('Apellidos del cliente'),
-                        Forms\Components\TextInput::make('nick_cli')->label('Apodo del cliente'),
-                        Forms\Components\TextInput::make('phone_cli')->label('Celular'),
+                        Forms\Components\TextInput::make('name_cli')->required()->label('Nombre del cliente')->unique(),       
+                        Forms\Components\TextInput::make('phone_cli')->label('Celular')->numeric(),
+                        Forms\Components\Textarea::make('notes_cli')->label('Notas del cliente'),
                     ])
                     ->afterStateUpdated(function (callable $set, $state) {
                         $client = Client::find($state);
@@ -58,19 +57,6 @@ class DebtResource extends Resource
                   ,
                 Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda (nombre del cliente)'),
                 Forms\Components\TextArea::make('notes')->label('Notas'),
-                Forms\Components\TextInput::make('total_amount')->default(0)->prefix('S/. ')->label('Monto total de la deuda'),
-                Radio::make('state_debt')->label('Estado de la deuda')
-                ->options([
-                    '0' => 'Falta pagar',
-                    '1' => 'Pagado',
-                ])->default(0),
-                Radio::make('risk')->label('Cantidad por cobrar')
-                ->options([
-                    'baja' => 'Baja',
-                    'moderada' => 'Moderada',
-                    'alta' => 'Alta',
-                ])
-                ->default('baja')
                     ]),
                 Forms\Components\Textarea::make('descrip_debt')->label('Notas'),
                 Forms\Components\TextInput::make('total_debt')->default(0)->prefix('S/. ')->label('Monto total del fiado'),
@@ -95,6 +81,7 @@ class DebtResource extends Resource
             ->filters([
                 //
             ])
+            ->defaultSort('created_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -102,7 +89,6 @@ class DebtResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     TablesExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

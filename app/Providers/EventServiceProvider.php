@@ -15,6 +15,7 @@ use App\Listeners\UpdateTotalDebtAmount;
 use App\Events\PaymentCreated;
 use App\Events\PaymentUpdated;
 use App\Events\PaymentDeleted;
+use App\Events\TransactionUpdated;
 use App\Listeners\UpdatePayments;
 use App\Listeners\UpdateDebtState;
 use App\Observers\TotaldebtObserver;
@@ -33,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         TransactionCreated::class => [
+            UpdateBoxTotals::class,
+        ],
+        TransactionUpdated::class => [
             UpdateBoxTotals::class,
         ],
         DebtCreated::class => [

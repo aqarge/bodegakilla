@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('pro_type_id')->constrained()->cascadeOnDelete();
             $table->string('name_pro');
             $table->text('descrip_pro')->nullable();
-            $table->decimal('price_pro', 10,2);
+            $table->decimal('price_pro', 10,1);
             $table->timestamps();
         });
     }

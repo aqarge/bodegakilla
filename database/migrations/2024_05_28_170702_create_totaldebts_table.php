@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('name_debt')->nullable();
-            $table->decimal('total_amount', 10,2)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
+            $table->decimal('total_amount', 10,1)->default(0); // total_debt = sum(amount_debt) - sum(payments) 
             $table->boolean('state_debt')->default(False);
-            $table->string('risk');
+            $table->string('risk')->default('nula');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

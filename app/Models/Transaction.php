@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Events\TransactionUpdated;
+
 
 class Transaction extends Model
 {
@@ -16,7 +18,10 @@ class Transaction extends Model
 
     public function boxes(): BelongsTo
     {
-        return $this->belongsTo(Box::class, 'boxes_id');
+        return $this->belongsTo(Box::class, 'boxes_id')->orderBy('opening', 'desc');
     }
+    protected $dispatchesEvents = [
+        'updated' => TransactionUpdated::class,
+    ];
     
 }
