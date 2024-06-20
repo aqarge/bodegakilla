@@ -13,6 +13,7 @@ use App\Events\DebtDeleted;
 
 class Debt extends Model
 {
+
     use HasFactory;
 
     //protected $guarded = [];

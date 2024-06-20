@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
+use Illuminate\Validation\Rule;
 
 class BoxResource extends Resource
 {
@@ -28,7 +29,15 @@ class BoxResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('opening')->required()->unique()->label('Fecha de apertura'),
+                Forms\Components\DatePicker::make('opening')
+                ->required()
+                ->label('Fecha de apertura')
+                ->rule(function ($record) {
+                    return [
+                        'required',
+                        Rule::unique('boxes', 'opening')->ignore($record),
+                    ];
+                }),
                 Forms\Components\TextInput::make('inbalance')->label('Saldo inicial')->prefix('S/. ')->numeric()->default(0),
                 Forms\Components\TextInput::make('income')->label('Ingresos del día')->prefix('S/. ')->numeric()->default(0),
                 Forms\Components\TextInput::make('expenses')->label('Egresos del día')->prefix('S/. ')->numeric()->default(0),

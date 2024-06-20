@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
+use Illuminate\Validation\Rule;
 
 class ClientResource extends Resource
 {
@@ -26,7 +27,16 @@ class ClientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_cli')->required()->label('Nombre del cliente')->unique(),       
+                Forms\Components\TextInput::make('name_cli')
+                ->required()
+                ->label('Nombre del cliente')
+                ->unique(ignoreRecord: true, column: 'name_cli')
+                    ->rule(function ($record) {
+                        return [
+                            'required',
+                            Rule::unique('clients', 'name_cli')->ignore($record),
+                        ];
+                    }),       
                 Forms\Components\TextInput::make('phone_cli')->label('Celular')->numeric(),
                 Forms\Components\Textarea::make('notes_cli')->label('Notas del cliente'),
             ]);
