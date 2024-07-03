@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('debt_id');
             $table->unsignedBigInteger('product_id');
-            $table->integer('quantity')->nullable()->default(1);
+            $table->decimal('quantity',10, 2)->nullable()->default(0);
             $table->decimal('subtotal', 10, 1)->default(0);
             $table->timestamps();
         });

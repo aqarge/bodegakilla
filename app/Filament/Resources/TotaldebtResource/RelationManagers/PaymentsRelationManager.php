@@ -74,8 +74,11 @@ class PaymentsRelationManager extends RelationManager
 
                         // Actualizar el monto total de la deuda
                         $totaldebt = Totaldebt::find($data['totaldebt_id']);
-                        $totaldebt->total_amount -= $data['pay'];
-                        $totaldebt->save();
+                        
+                        if ($totaldebt) {
+                            $totaldebt->total_amount -= $data['pay'];
+                            $totaldebt->save();
+                        }
 
                         return $data;
                     }),
