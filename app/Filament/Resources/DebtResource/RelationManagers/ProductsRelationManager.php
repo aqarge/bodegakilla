@@ -78,6 +78,7 @@ class ProductsRelationManager extends RelationManager
                             ->label('Cantidad')
                             ->numeric()
                             ->required()
+                            ->prefix('Unidades o gramos')
                             ->live()
                             ->afterStateUpdated(function ($state, Get $get, Set $set) {
                                 $precio = $get('precio');
