@@ -86,8 +86,8 @@ class PaymentsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('pdf')
-                    ->icon('heroicon-m-inbox-arrow-down')
+                Tables\Actions\Action::make('Actualizar')
+                    ->icon('heroicon-m-arrow-path-rounded-square')
                     ->iconButton()
                     ->url(fn ($record): string => route('debttotal.total', ['debt' => $record]))
                     ->visible(fn ($record): bool => $record->id === $lastPaymentId),

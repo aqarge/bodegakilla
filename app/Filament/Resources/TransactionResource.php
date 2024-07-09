@@ -21,6 +21,7 @@ use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Filters\Filter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction as TablesExportBulkAction;
 
+
 class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
@@ -43,9 +44,9 @@ class TransactionResource extends Resource
                 Forms\Components\Select::make('boxes_id')->required()
                     ->relationship('boxes', 'opening')
                     ->label('Fecha de caja')
-                    ->preload()
+                    ->preload() 
                     ->createOptionForm([
-                        Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura'),
+                        Forms\Components\DatePicker::make('opening')->required()->label('Fecha de apertura')
                     ]),
                 Radio::make('type_tran')->label('Tipo de transacción')
                 ->options([

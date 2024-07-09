@@ -34,11 +34,11 @@ class ProductsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name_pro')
             ->columns([
-                Tables\Columns\TextColumn::make('name_pro'),
-                Tables\Columns\TextColumn::make('price_pro')->numeric()
+                Tables\Columns\TextColumn::make('name_pro')->label('Producto'),
+                Tables\Columns\TextColumn::make('price_pro')->label('Precio')->numeric()
                 ->prefix('S/. '),
-                Tables\Columns\TextColumn::make('quantity'),
-                Tables\Columns\TextColumn::make('subtotal')->numeric()
+                Tables\Columns\TextColumn::make('quantity')->label('Cantidad'),
+                Tables\Columns\TextColumn::make('subtotal')->label('Sub Total')->numeric()
                 ->prefix('S/. '),
             ])
             ->filters([
@@ -92,7 +92,7 @@ class ProductsRelationManager extends RelationManager
                             ->numeric()
                             ->prefix('S/. ')
                         ]),
-                        Tables\Actions\Action::make('pdf')->icon('heroicon-m-inbox-arrow-down')->iconButton()
+                        Tables\Actions\Action::make('Calcular')->icon('heroicon-m-calculator')->iconButton()
                         ->url(fn (): string => route('debttotal.total', ['debt' => $this->getOwnerRecord()]))
             ])
             ->actions([
