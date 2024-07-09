@@ -61,6 +61,8 @@ class ProductResource extends Resource
                     ->placeholder('Seleccione un tipo de producto')
                     ->searchable(),
             ])
+            ->query(
+                Product::with('pro_type'))
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

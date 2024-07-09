@@ -85,7 +85,7 @@ class BoxResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     TablesExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    //Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -5,7 +5,6 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\ChartWidget;
 use App\Models\Box;
 use Carbon\Carbon;
-use Filament\Forms\Components\DatePicker;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 class BoxesChart extends ChartWidget
@@ -18,12 +17,12 @@ class BoxesChart extends ChartWidget
 
     protected function getData(): array
     {
-        $desde = $this->filters['desde'];
-        $hasta = $this->filters['hasta'];
+        $desde = $this->filters['desde'] ?? null;
+        $hasta = $this->filters['hasta'] ?? null;
         
-        // Si no se especifican fechas, mostrar los últimos 14 días
-        $defaultDesde = Carbon::today();
-        $defaultHasta = Carbon::today()->addDays(4)->endOfDay();
+        // Rango de fechas por defecto (hoy y los últimos 4 días)
+        $defaultDesde = Carbon::today()->subDays(4);
+        $defaultHasta = Carbon::today()->endOfDay();
 
         // Query base para obtener las cajas
         $query = Box::query()

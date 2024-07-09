@@ -55,7 +55,7 @@ class DebtResource extends Resource
                         }
                     })
                   ,
-                Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda (nombre del cliente)'),
+                Forms\Components\TextInput::make('name_debt')->label('Nombre de la deuda (nombre del cliente)')->required(),
                 Forms\Components\TextArea::make('notes')->label('Notas'),
                     ]),
                 Forms\Components\Textarea::make('descrip_debt')->label('Notas'),
@@ -89,7 +89,7 @@ class DebtResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     TablesExportBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
+                   // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
